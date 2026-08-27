@@ -14,6 +14,7 @@ public class Tabuleiro {
     public Casa getCasa(int linha, int coluna){
         return this.casas[linha][coluna];
     }
+
     public void limparTabuleiro(){
         for(int i = 0; i < casas.length; i++){
             for(int j = 0; j < casas[i].length; j++){
