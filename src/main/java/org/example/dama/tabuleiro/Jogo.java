@@ -36,24 +36,7 @@ public class Jogo {
             }
         }
         //Preto
-        if (!tabuleiro.getCasa(linha, coluna).isVazia()){
-            if (!getJogadorAtual().getCorPecas().equals(tabuleiro.getCasa(linha,coluna).getPeca().getCorDaPeca())) {
-                return false;
-            }
-            if (tabuleiro.getCasa(linhaDestino, colunaDestino).isVazia()){
-                if(linha - 2 == linhaDestino && coluna + 2 == colunaDestino){
-                    if(!tabuleiro.getCasa(linhaDestino+1, colunaDestino-1).isVazia() &&
-                            !tabuleiro.getCasa(linhaDestino+1, colunaDestino-1).getPeca().getCorDaPeca().equals(jogadorAtual.getCorPecas())){
-                        return true;
-                    }
-                }else if ((linha - 2 == linhaDestino && coluna - 2 == colunaDestino)){
-                    if (!tabuleiro.getCasa(linhaDestino+1, colunaDestino+1).isVazia() &&
-                            !tabuleiro.getCasa(linhaDestino+1, colunaDestino+1).getPeca().getCorDaPeca().equals(jogadorAtual.getCorPecas())) {
-                        return true;
-                    }
-                }
-            }
-        }
+        
         return false;
     }
     public void moverPeca(int linha, int coluna, int linhaDestino, int colunaDestino){
