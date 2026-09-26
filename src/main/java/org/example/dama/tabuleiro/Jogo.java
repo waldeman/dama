@@ -15,6 +15,37 @@ public class Jogo {
         jogadorAtual = getJogadorBranco();
 
     }
+    public void verificarDama(int linha, int coluna){
+        if (this.jogadorAtual.getCorPecas().equals("Preto") && linha == 0){
+            this.tabuleiro.getCasa(linha, coluna).getPeca().transformarDama();
+        } else if (this.jogadorAtual.getCorPecas().equals("Branco") && linha == 7) {
+            this.tabuleiro.getCasa(linha, coluna).getPeca().transformarDama();
+        }
+    }
+    public void capturar(int linha, int coluna, int linhaDestino, int colunaDestino){
+        if (podeCapturar(linha, coluna, linhaDestino, colunaDestino)){
+            int linhaDiferenca = linha - linhaDestino;
+            int colunaDiferenca = coluna - colunaDestino;
+            int linhaMeio;
+            int colunaMeio;
+            if( linhaDiferenca < 0){
+                linhaMeio = linha+1;
+            }else{
+                linhaMeio = linha-1;
+            }
+            if( colunaDiferenca >= 0){
+                colunaMeio = coluna-1;
+            }else{
+                colunaMeio = coluna+1;
+            }
+            this.tabuleiro.getCasa(linhaMeio, colunaMeio).retirarPeca();
+            this.tabuleiro.getCasa(linhaDestino, colunaDestino).botarPeca(this.tabuleiro.getCasa(linha,coluna).getPeca());
+            this.verificarDama(linhaDestino, colunaDestino);
+            this.tabuleiro.getCasa(linha, coluna).retirarPeca();
+            this.trocarJogador();
+            this.jogadorAtual.perderPeca();
+        }
+    }
     public boolean podeCapturar(int linha, int coluna, int linhaDestino, int colunaDestino){
         //Branco
         if (!tabuleiro.getCasa(linha, coluna).isVazia()){
@@ -60,6 +91,7 @@ public class Jogo {
         if (podeMover(linha, coluna, linhaDestino, colunaDestino)){
             tabuleiro.getCasa(linhaDestino, colunaDestino).botarPeca(tabuleiro.getCasa(linha, coluna).getPeca());
             tabuleiro.getCasa(linha, coluna).retirarPeca();
+            this.verificarDama(linhaDestino, colunaDestino);
             trocarJogador();
         }
     }
@@ -70,7 +102,12 @@ public class Jogo {
             return false;
         } else if (!tabuleiro.getCasa(linhaDestino, colunaDestino).isVazia()) {
             return false;
-        }else if (tabuleiro.getCasa(linha, coluna).getPeca().getCorDaPeca().equals("Branco")) {
+        } else if (this.tabuleiro.getCasa(linha, coluna).getPeca().isDama()) {
+            if(linha+1 == linhaDestino && coluna +1 == colunaDestino || linha+1 == linhaDestino && coluna-1 == colunaDestino || linha-1 == linhaDestino && coluna+1 == colunaDestino || linha-1 == linhaDestino && coluna-1 == colunaDestino){
+                return true;
+            }
+
+        } else if (tabuleiro.getCasa(linha, coluna).getPeca().getCorDaPeca().equals("Branco")) {
             if (linha + 1 == linhaDestino &&
                     (coluna + 1 == colunaDestino || coluna - 1 == colunaDestino)) {
                 return true;
